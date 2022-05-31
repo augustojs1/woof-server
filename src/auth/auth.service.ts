@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SignUpDTO } from './dto/signup.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { SignInDTO } from './dto/signin.dto';
 
 @Injectable()
 export class AuthService {
@@ -81,7 +82,41 @@ export class AuthService {
     };
   }
 
-  public signinLocal() {}
+  public async signinLocal(signInDto: SignInDTO) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: signInDto.email,
+      },
+    });
+
+    if (!user) {
+      throw new HttpException(
+        'Incorrect email or password!',
+        HttpStatus.FORBIDDEN,
+      );
+    }
+
+    const passwordMatches = await bcrypt.compare(
+      signInDto.password,
+      user.password,
+    );
+
+    if (!passwordMatches) {
+      throw new HttpException(
+        'Incorrect email or password!',
+        HttpStatus.FORBIDDEN,
+      );
+    }
+
+    const tokens = await this.getTokens(user.id, user.email);
+
+    await this.updateRefreshToken(user.id, tokens.refresh_token);
+
+    return {
+      ...user,
+      ...tokens,
+    };
+  }
 
   public logout() {}
 
