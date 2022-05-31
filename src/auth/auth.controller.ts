@@ -16,7 +16,7 @@ export class AuthController {
 
   @Post('/local/signup')
   signupLocal(@Body() signUpDto: SignUpDTO) {
-    this.authService.signupLocal(signUpDto);
+    return this.authService.signupLocal(signUpDto);
   }
 
   @Post('/local/signin')

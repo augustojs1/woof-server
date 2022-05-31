@@ -10,6 +10,7 @@ export class PrismaService
     super({
       datasources: {
         db: {
+          // should be config module
           url: `${process.env.DATABASE_URL}`,
         },
       },
