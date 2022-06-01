@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './authentication/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import * as Joi from 'joi';
 import { ConfigModule } from '@nestjs/config';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
     AuthModule,
     PrismaModule,
+    PostsModule,
   ],
   controllers: [],
   providers: [],

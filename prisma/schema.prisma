@@ -16,6 +16,7 @@ model User {
   email         String  @unique
   password      String
   profile_name  String?
+  bio           String?
   followers     Int?    @default(0)
   following     Int?    @default(0)
   avatar_url    String?
@@ -24,5 +25,21 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  Post Post[]
   @@map("users")
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [user_id], references: [id])
+  user_id   Int
+  content   String
+  public    Boolean  @default(true)
+  media_url String?
+  likes     Int?     @default(0)
+  shares    Int?     @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("posts")
 }
