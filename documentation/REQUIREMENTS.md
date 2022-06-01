@@ -7,9 +7,14 @@
 </h3>
 
 - [x] Woof Server should be developed using the following stack: Node.js, Nest.js, TypeScript, PostgreSQL and Docker.
-
+- [ ] Docker container for the database.
+- [ ] Docker container for the application.
+- [ ] Create Github documentaion.
+- [ ] Create Swagger REST API documentation.
+- [ ] Implement security configuration: SQL Injection, XSS Protection, Security Headers, Rate limiting, HPP & CORS etc.
 - [ ] Should include unit and integration tests.
-
+- [ ] Implement server configuration: Nginx, SSL, Dominio, PM2 etc.
+- [ ] Create basic CI/CD and Github Actions pipeline.
 - [ ] Should be deployed to Amazon AWS EC2.
 - [ ] Should use AWS S3 to store static files.
 
