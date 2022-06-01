@@ -7,9 +7,14 @@
 </h3>
 
 - [x] Woof Server should be developed using the following stack: Node.js, Nest.js, TypeScript, PostgreSQL and Docker.
-
+- [ ] Docker container for the database.
+- [ ] Docker container for the application.
+- [ ] Create Github documentaion.
+- [ ] Create Swagger REST API documentation.
+- [ ] Implement security configuration: SQL Injection, XSS Protection, Security Headers, Rate limiting, HPP & CORS etc.
 - [ ] Should include unit and integration tests.
-
+- [ ] Implement server configuration: Nginx, SSL, Dominio, PM2 etc.
+- [ ] Create basic CI/CD and Github Actions pipeline.
 - [ ] Should be deployed to Amazon AWS EC2.
 - [ ] Should use AWS S3 to store static files.
 
@@ -34,6 +39,11 @@
 - [ ] Users should be able to save a post.
 - [ ] Users should be able to set the post to public or followers only.
 
+### #Follows
+
+- [ ] Users should be able to follow a another user.
+- [ ] Users should be able to unfollow another user.
+
 ### #Replies
 
 - [ ] Users should be able to reply to posts.
@@ -48,7 +58,11 @@
 - [ ] Users should be able to edit their profile name.
 - [ ] Users should be able to check posts they saved.
 
-### #Follows
+### #Files
 
-- [ ] Users should be able to follow a another user.
-- [ ] Users should be able to unfollow another user.
+- [ ] Users should be able to upload image file.
+
+### #Email
+
+- [ ] Users should confirm their accout trough email.
+- [ ] Users should reset their password trough email.
