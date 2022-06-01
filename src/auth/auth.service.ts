@@ -4,12 +4,14 @@ import { SignUpDTO } from './dto/signup.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { SignInDTO } from './dto/signin.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   private async hashData(data: string) {
@@ -24,8 +26,7 @@ export class AuthService {
           email: email,
         },
         {
-          // should be config module
-          secret: 'at-secret',
+          secret: this.configService.get('ACCESS_TOKEN_SECRET'),
           expiresIn: 60 * 15,
         },
       ),
@@ -35,8 +36,7 @@ export class AuthService {
           email: email,
         },
         {
-          // should be config module
-          secret: 'rt-secret',
+          secret: this.configService.get('REFRESH_TOKEN_SECRET'),
           expiresIn: 60 * 60 * 24 * 7,
         },
       ),
