@@ -34,6 +34,11 @@
 - [ ] Users should be able to save a post.
 - [ ] Users should be able to set the post to public or followers only.
 
+### #Follows
+
+- [ ] Users should be able to follow a another user.
+- [ ] Users should be able to unfollow another user.
+
 ### #Replies
 
 - [ ] Users should be able to reply to posts.
@@ -48,7 +53,11 @@
 - [ ] Users should be able to edit their profile name.
 - [ ] Users should be able to check posts they saved.
 
-### #Follows
+### #Files
 
-- [ ] Users should be able to follow a another user.
-- [ ] Users should be able to unfollow another user.
+- [ ] Users should be able to upload image file.
+
+### #Email
+
+- [ ] Users should confirm their accout trough email.
+- [ ] Users should reset their password trough email.

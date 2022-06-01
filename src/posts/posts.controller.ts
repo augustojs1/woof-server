@@ -1,19 +1,33 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
+import { AccessTokenGuard } from 'src/authentication/guards/access-token.guard';
+import { GetCurrentUser } from 'src/authentication/decorators/current-user.decorator';
 
+@UseGuards(AccessTokenGuard)
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Post()
-  create(@Body() createPostDto: CreatePostDto) {
-    return this.postsService.create(createPostDto);
+  public async create(
+    @Body() createPostDto: CreatePostDto,
+    @GetCurrentUser() userId: number,
+  ) {
+    return await this.postsService.create(createPostDto, userId);
   }
 
   @Get()
-  findAll() {
-    return this.postsService.findAll();
+  public async findAll() {
+    return await this.postsService.findAll();
   }
 
   @Get(':id')

@@ -9,6 +9,7 @@ import { PostsModule } from './posts/posts.module';
   imports: [
     ConfigModule.forRoot({
       validationSchema: Joi.object({
+        PORT: Joi.required(),
         DATABASE_URL: Joi.required(),
         ACCESS_TOKEN_SECRET: Joi.required(),
         REFRESH_TOKEN_SECRET: Joi.required(),

@@ -62,6 +62,19 @@ export class AuthService {
   }
 
   public async signupLocal(signUpDto: SignUpDTO) {
+    const userAlreadyExists = await this.prisma.user.findUnique({
+      where: {
+        email: signUpDto.email,
+      },
+    });
+
+    if (userAlreadyExists) {
+      throw new HttpException(
+        'User with this email already exists',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const hashedPassword = await this.hashData(signUpDto.password);
 
     const newUser = await this.prisma.user.create({
