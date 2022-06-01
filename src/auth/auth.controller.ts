@@ -7,11 +7,14 @@ import {
   UseGuards,
   Req,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { AuthService } from './auth.service';
+import { GetCurrentUserRToken } from './decorators/current-user-rtoken.decorator';
+import { GetCurrentUser } from './decorators/current-user.decorator';
 import { SignInDTO } from './dto/signin.dto';
 import { SignUpDTO } from './dto/signup.dto';
+import { AccessTokenGuard } from './guards/access-token.guard';
+import { RefreshTokenGuard } from './guards/refresh-token.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -19,30 +22,29 @@ export class AuthController {
 
   @Post('local/signup')
   @HttpCode(HttpStatus.CREATED)
-  signupLocal(@Body() signUpDto: SignUpDTO) {
-    return this.authService.signupLocal(signUpDto);
+  public async signupLocal(@Body() signUpDto: SignUpDTO) {
+    return await this.authService.signupLocal(signUpDto);
   }
 
   @Post('local/signin')
   @HttpCode(HttpStatus.OK)
-  signinLocal(@Body() signInDto: SignInDTO) {
-    return this.authService.signinLocal(signInDto);
+  public async signinLocal(@Body() signInDto: SignInDTO) {
+    return await this.authService.signinLocal(signInDto);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AccessTokenGuard)
   @Post('logout')
   @HttpCode(HttpStatus.OK)
-  logout(@Req() req: Request) {
-    const user = req.user;
-
-    return this.authService.logout(user['sub']);
+  public async logout(@GetCurrentUser() userId: number) {
+    return await this.authService.logout(userId);
   }
 
-  @UseGuards(AuthGuard('jwt-refresh'))
+  @UseGuards(RefreshTokenGuard)
   @Post('refresh')
-  refreshToken(@Req() req: Request) {
-    const user = req.user;
-
-    return this.authService.refreshToken(user['sub'], user['refreshToken']);
+  public async refreshToken(
+    @GetCurrentUser() userId: number,
+    @GetCurrentUserRToken('refreshToken') refreshToken: string,
+  ) {
+    return await this.authService.refreshToken(userId, refreshToken);
   }
 }
