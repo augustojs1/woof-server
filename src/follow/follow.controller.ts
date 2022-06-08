@@ -15,4 +15,12 @@ export class FollowController {
   ) {
     return await this.followService.followUser(+userId, +followingId);
   }
+
+  @Patch('unfollow/:following_id')
+  public async unfollow(
+    @Param('following_id') followingId: number,
+    @GetCurrentUser() userId: number,
+  ) {
+    return await this.followService.unfollowUser(+userId, +followingId);
+  }
 }

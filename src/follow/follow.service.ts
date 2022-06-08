@@ -71,4 +71,71 @@ export class FollowService {
       },
     });
   }
+
+  public async unfollowUser(userId: number, followingId: number) {
+    if (userId === followingId) {
+      throw new HttpException(
+        'User can not unfollow themselves!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const followingUser = await this.prisma.user.findUnique({
+      where: {
+        id: followingId,
+      },
+    });
+
+    const unfollowerUser = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!followingUser) {
+      throw new HttpException(
+        'User to follow does not exists!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const alreadyFollows = await this.prisma.userFollow.findFirst({
+      where: {
+        followerId: userId,
+        followingId: followingId,
+      },
+    });
+
+    if (!alreadyFollows) {
+      throw new HttpException(
+        'You already do not follow this user',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    await this.prisma.user.update({
+      where: {
+        id: followingUser.id,
+      },
+      data: {
+        followers_ammount: followingUser.followers_ammount - 1,
+      },
+    });
+
+    await this.prisma.user.update({
+      where: {
+        id: unfollowerUser.id,
+      },
+      data: {
+        following_ammount: unfollowerUser.following_ammount - 1,
+      },
+    });
+
+    return await this.prisma.userFollow.deleteMany({
+      where: {
+        followerId: unfollowerUser.id,
+        followingId: followingId,
+      },
+    });
+  }
 }
