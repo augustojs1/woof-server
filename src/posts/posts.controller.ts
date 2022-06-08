@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Patch,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -31,12 +32,23 @@ export class PostsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.postsService.findOne(+id);
+  public async findOne(@Param('id') postId: string) {
+    return await this.postsService.findOne(+postId);
+  }
+
+  @Patch('like/:id')
+  public async like(
+    @Param('id') postId: string,
+    @GetCurrentUser() userId: number,
+  ) {
+    return await this.postsService.likeAPost(+postId, userId);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.postsService.remove(+id);
+  public async delete(
+    @Param('id') postId: string,
+    @GetCurrentUser() userId: number,
+  ) {
+    return this.postsService.deletePost(+postId, userId);
   }
 }

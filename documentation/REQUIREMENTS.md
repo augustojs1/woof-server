@@ -32,11 +32,14 @@
 
 ### #Posts
 
-- [ ] Users should be able to post text content.
+- [x] Users should be able to post text content.
 - [ ] Users should be able to post media content.
-- [ ] Users should be able to like posts.
+- [x] Users should be able to like posts.
+- [ ] User should see wether they already liked a post.
 - [ ] Users should be able to share posts.
+- [ ] User should see wether they already shared a post.
 - [ ] Users should be able to save a post.
+- [ ] User should see wether they already saved a post.
 - [ ] Users should be able to set the post to public or followers only.
 
 ### #Follows
@@ -57,6 +60,11 @@
 - [ ] Users should be able to edit their bio.
 - [ ] Users should be able to edit their profile name.
 - [ ] Users should be able to check posts they saved.
+- [ ] Users can filter only posts of another user on a profile.
+- [ ] Users can filter only liked posts of another user on a profile.
+- [ ] Users can filter only posts with media of another user on a profile.
+- [ ] Users can check another user followers.
+- [ ] Users can check who another user is following.
 
 ### #Files
 
