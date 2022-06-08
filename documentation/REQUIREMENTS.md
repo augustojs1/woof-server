@@ -13,7 +13,7 @@
 - [ ] Create Swagger REST API documentation.
 - [ ] Implement security configuration: SQL Injection, XSS Protection, Security Headers, Rate limiting, HPP & CORS etc.
 - [ ] Should include unit and integration tests.
-- [ ] Implement server configuration: Nginx, SSL, Dominio, PM2 etc.
+- [ ] Implement server configuration: Nginx, SSL, Domain, PM2 etc.
 - [ ] Create basic CI/CD and Github Actions pipeline.
 - [ ] Should be deployed to Amazon AWS EC2.
 - [ ] Should use AWS S3 to store static files.
@@ -44,8 +44,11 @@
 
 ### #Follows
 
-- [ ] Users should be able to follow a another user.
+- [x] Users should be able to follow another user.
 - [ ] Users should be able to unfollow another user.
+- [ ] Users should be able see who they follow.
+- [ ] Users should be able to see who another user follows.
+- [ ] User should be able to see who follows him.
 
 ### #Replies
 

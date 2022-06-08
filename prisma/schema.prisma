@@ -11,22 +11,26 @@ datasource db {
 }
 
 model User {
-  id            Int     @id @default(autoincrement())
-  name          String  @unique
-  email         String  @unique
-  password      String
-  profile_name  String?
-  bio           String?
-  followers     Int?    @default(0)
-  following     Int?    @default(0)
-  avatar_url    String?
-  refresh_token String?
+  id                Int          @id @default(autoincrement())
+  name              String       @unique
+  email             String       @unique
+  password          String
+  profile_name      String?
+  bio               String?
+  followers_ammount Int?         @default(0)
+  followedBy        UserFollow[] @relation("following")
+  following_ammount Int?         @default(0)
+  following         UserFollow[] @relation("follower")
+  avatar_url        String?
+  refresh_token     String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   Post      Post[]
   LikedPost LikedPost[]
+
+  UserFollow UserFollow[]
   @@map("users")
 }
 
@@ -43,8 +47,8 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("posts")
   LikedPost LikedPost[]
+  @@map("posts")
 }
 
 model LikedPost {
@@ -58,4 +62,19 @@ model LikedPost {
   updatedAt DateTime @updatedAt
 
   @@map("liked_posts")
+}
+
+model UserFollow {
+  follower    User @relation("follower", fields: [followerId], references: [id])
+  followerId  Int
+  following   User @relation("following", fields: [followingId], references: [id])
+  followingId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  User   User? @relation(fields: [userId], references: [id])
+  userId Int?
+  @@id([followerId, followingId])
+  @@map("users_follows")
 }
