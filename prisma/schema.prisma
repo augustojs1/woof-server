@@ -11,35 +11,70 @@ datasource db {
 }
 
 model User {
-  id            Int     @id @default(autoincrement())
-  name          String  @unique
-  email         String  @unique
-  password      String
-  profile_name  String?
-  bio           String?
-  followers     Int?    @default(0)
-  following     Int?    @default(0)
-  avatar_url    String?
-  refresh_token String?
+  id                Int          @id @default(autoincrement())
+  name              String       @unique
+  email             String       @unique
+  password          String
+  profile_name      String?
+  bio               String?
+  followers_ammount Int?         @default(0)
+  followedBy        UserFollow[] @relation("following")
+  following_ammount Int?         @default(0)
+  following         UserFollow[] @relation("follower")
+  avatar_url        String?
+  refresh_token     String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  Post Post[]
+  Post      Post[]
+  LikedPost LikedPost[]
+
+  UserFollow UserFollow[]
   @@map("users")
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [user_id], references: [id])
+  id        Int     @id @default(autoincrement())
+  user      User    @relation(fields: [user_id], references: [id])
   user_id   Int
   content   String
-  public    Boolean  @default(true)
+  public    Boolean @default(true)
   media_url String?
-  likes     Int?     @default(0)
-  shares    Int?     @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  likes     Int?    @default(0)
+  shares    Int?    @default(0)
 
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  LikedPost LikedPost[]
   @@map("posts")
+}
+
+model LikedPost {
+  id      Int  @id @default(autoincrement())
+  user_id Int
+  user    User @relation(fields: [user_id], references: [id])
+  post_id Int
+  post    Post @relation(fields: [post_id], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("liked_posts")
+}
+
+model UserFollow {
+  follower     User @relation("follower", fields: [follower_id], references: [id])
+  follower_id  Int
+  following    User @relation("following", fields: [following_id], references: [id])
+  following_id Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  User    User? @relation(fields: [user_id], references: [id])
+  user_id Int?
+  @@id([follower_id, following_id])
+  @@map("users_follows")
 }

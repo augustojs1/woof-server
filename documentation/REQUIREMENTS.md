@@ -13,7 +13,7 @@
 - [ ] Create Swagger REST API documentation.
 - [ ] Implement security configuration: SQL Injection, XSS Protection, Security Headers, Rate limiting, HPP & CORS etc.
 - [ ] Should include unit and integration tests.
-- [ ] Implement server configuration: Nginx, SSL, Dominio, PM2 etc.
+- [ ] Implement server configuration: Nginx, SSL, Domain, PM2 etc.
 - [ ] Create basic CI/CD and Github Actions pipeline.
 - [ ] Should be deployed to Amazon AWS EC2.
 - [ ] Should use AWS S3 to store static files.
@@ -32,17 +32,23 @@
 
 ### #Posts
 
-- [ ] Users should be able to post text content.
+- [x] Users should be able to post text content.
 - [ ] Users should be able to post media content.
-- [ ] Users should be able to like posts.
+- [x] Users should be able to like posts.
+- [ ] User should see wether they already liked a post.
 - [ ] Users should be able to share posts.
+- [ ] User should see wether they already shared a post.
 - [ ] Users should be able to save a post.
+- [ ] User should see wether they already saved a post.
 - [ ] Users should be able to set the post to public or followers only.
 
 ### #Follows
 
-- [ ] Users should be able to follow a another user.
-- [ ] Users should be able to unfollow another user.
+- [x] Users should be able to follow another user.
+- [x] Users should be able to unfollow another user.
+- [x] User should be able to see who follows him.
+- [ ] Users should be able see who they follow.
+- [ ] Users should be able to see who another user follows.
 
 ### #Replies
 
@@ -57,6 +63,11 @@
 - [ ] Users should be able to edit their bio.
 - [ ] Users should be able to edit their profile name.
 - [ ] Users should be able to check posts they saved.
+- [ ] Users can filter only posts of another user on a profile.
+- [ ] Users can filter only liked posts of another user on a profile.
+- [ ] Users can filter only posts with media of another user on a profile.
+- [ ] Users can check another user followers.
+- [ ] Users can check who another user is following.
 
 ### #Files
 

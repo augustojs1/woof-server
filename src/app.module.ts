@@ -4,6 +4,8 @@ import { PrismaModule } from './prisma/prisma.module';
 import * as Joi from 'joi';
 import { ConfigModule } from '@nestjs/config';
 import { PostsModule } from './posts/posts.module';
+import { UsersModule } from './users/users.module';
+import { FollowModule } from './follow/follow.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { PostsModule } from './posts/posts.module';
     AuthModule,
     PrismaModule,
     PostsModule,
+    UsersModule,
+    FollowModule,
   ],
   controllers: [],
   providers: [],
