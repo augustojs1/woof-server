@@ -24,8 +24,8 @@ model User {
   avatar_url        String?
   refresh_token     String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   Post      Post[]
   LikedPost LikedPost[]
@@ -44,8 +44,8 @@ model Post {
   likes     Int?    @default(0)
   shares    Int?    @default(0)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   LikedPost LikedPost[]
   @@map("posts")
@@ -58,23 +58,23 @@ model LikedPost {
   post_id Int
   post    Post @relation(fields: [post_id], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("liked_posts")
 }
 
 model UserFollow {
-  follower    User @relation("follower", fields: [followerId], references: [id])
-  followerId  Int
-  following   User @relation("following", fields: [followingId], references: [id])
-  followingId Int
+  follower     User @relation("follower", fields: [follower_id], references: [id])
+  follower_id  Int
+  following    User @relation("following", fields: [following_id], references: [id])
+  following_id Int
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  User   User? @relation(fields: [userId], references: [id])
-  userId Int?
-  @@id([followerId, followingId])
+  User    User? @relation(fields: [user_id], references: [id])
+  user_id Int?
+  @@id([follower_id, following_id])
   @@map("users_follows")
 }

@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -34,8 +35,8 @@ export class FollowService {
 
     const alreadyFollows = await this.prisma.userFollow.findFirst({
       where: {
-        followerId: userId,
-        followingId: followingId,
+        follower_id: userId,
+        following_id: followingId,
       },
     });
 
@@ -66,8 +67,8 @@ export class FollowService {
 
     return await this.prisma.userFollow.create({
       data: {
-        followerId: userId,
-        followingId: followingUser.id,
+        follower_id: userId,
+        following_id: followingUser.id,
       },
     });
   }
@@ -101,8 +102,8 @@ export class FollowService {
 
     const alreadyFollows = await this.prisma.userFollow.findFirst({
       where: {
-        followerId: userId,
-        followingId: followingId,
+        follower_id: userId,
+        following_id: followingId,
       },
     });
 
@@ -133,9 +134,20 @@ export class FollowService {
 
     return await this.prisma.userFollow.deleteMany({
       where: {
-        followerId: unfollowerUser.id,
-        followingId: followingId,
+        follower_id: unfollowerUser.id,
+        following_id: followingId,
       },
     });
+  }
+
+  public async findFollowers(userId: number) {
+    const followers = await this.prisma.$queryRaw(
+      Prisma.sql`SELECT * 
+                  FROM users 
+                  WHERE id IN (SELECT follower_id FROM users_follows WHERE following_id = ${userId})
+                  ORDER BY name ASC;`,
+    );
+
+    return followers;
   }
 }

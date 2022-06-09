@@ -46,7 +46,7 @@
 
 - [x] Users should be able to follow another user.
 - [x] Users should be able to unfollow another user.
-- [ ] User should be able to see who follows him.
+- [x] User should be able to see who follows him.
 - [ ] Users should be able see who they follow.
 - [ ] Users should be able to see who another user follows.
 

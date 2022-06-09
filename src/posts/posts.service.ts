@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePostDto } from './dto/create-post.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class PostsService {
@@ -18,19 +19,15 @@ export class PostsService {
     return newPost;
   }
 
-  public async findAll() {
-    const posts = await this.prisma.post.findMany({
-      select: {
-        user: true,
-        content: true,
-        id: true,
-        likes: true,
-        createdAt: true,
-        media_url: true,
-        public: true,
-        shares: true,
-      },
-    });
+  public async findAll(userId: number) {
+    const posts = await this.prisma.$queryRaw(
+      Prisma.sql`SELECT * 
+                FROM posts
+                WHERE user_id IN 
+                (SELECT following_id FROM users_follows WHERE follower_id = ${userId}) 
+                OR user_id = ${userId} 
+                ORDER BY created_at DESC;`,
+    );
 
     return posts;
   }
@@ -45,7 +42,7 @@ export class PostsService {
         content: true,
         id: true,
         likes: true,
-        createdAt: true,
+        created_at: true,
         media_url: true,
         public: true,
         shares: true,

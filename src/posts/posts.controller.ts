@@ -27,8 +27,8 @@ export class PostsController {
   }
 
   @Get()
-  public async findAll() {
-    return await this.postsService.findAll();
+  public async findAll(@GetCurrentUser() userId: number) {
+    return await this.postsService.findAll(+userId);
   }
 
   @Get(':id')

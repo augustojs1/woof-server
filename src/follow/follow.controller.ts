@@ -1,4 +1,4 @@
-import { Controller, Param, Patch, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
 import { GetCurrentUser } from 'src/authentication/decorators/current-user.decorator';
 import { AccessTokenGuard } from 'src/authentication/guards/access-token.guard';
 import { FollowService } from './follow.service';
@@ -22,5 +22,10 @@ export class FollowController {
     @GetCurrentUser() userId: number,
   ) {
     return await this.followService.unfollowUser(+userId, +followingId);
+  }
+
+  @Get('followers')
+  public async followers(@GetCurrentUser() userId: number) {
+    return await this.followService.findFollowers(+userId);
   }
 }
