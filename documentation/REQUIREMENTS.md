@@ -56,7 +56,7 @@
 - [ ] Users should be able to like a reply.
 - [ ] Users should be able to reply with image.
 - [x] Users should be able to delete their own reply.
-- [ ] Users should be able to see all the replies of a post.
+- [x] Users should be able to see all the replies of a post.
 
 ### #Users
 

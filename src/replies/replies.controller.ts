@@ -36,9 +36,9 @@ export class RepliesController {
     return this.repliesService.likeReply();
   }
 
-  @Get(':id')
-  public async findOne(@Param('id') id: string) {
-    return this.repliesService.findOne(+id);
+  @Get('post/:post_id')
+  public async findOne(@Param('post_id', ParseIntPipe) postId: number) {
+    return this.repliesService.findRepliesFromPost(postId);
   }
 
   @Delete(':reply_id')

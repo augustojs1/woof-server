@@ -39,8 +39,27 @@ export class RepliesService {
     return `This action returns all replies`;
   }
 
-  public async findOne(id: number) {
-    return `This action returns a #${id} reply`;
+  public async findRepliesFromPost(postId: number) {
+    const post = await this.prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+    });
+
+    if (!post) {
+      throw new HttpException(
+        'Post with this id does not exists!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const replies = await this.prisma.reply.findMany({
+      where: {
+        post_id: postId,
+      },
+    });
+
+    return replies;
   }
 
   public async remove(userId: number, replyId: number) {
