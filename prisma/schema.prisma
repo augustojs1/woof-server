@@ -31,6 +31,7 @@ model User {
   LikedPost LikedPost[]
 
   UserFollow UserFollow[]
+  Reply      Reply[]
   @@map("users")
 }
 
@@ -49,6 +50,7 @@ model Post {
 
   LikedPost LikedPost[]
   @@map("posts")
+  Reply Reply[]
 }
 
 model LikedPost {
@@ -77,4 +79,20 @@ model UserFollow {
   user_id Int?
   @@id([follower_id, following_id])
   @@map("users_follows")
+}
+
+model Reply {
+  id        Int     @id @default(autoincrement())
+  user_id   Int
+  user      User    @relation(fields: [user_id], references: [id])
+  post_id   Int
+  post      Post    @relation(fields: [post_id], references: [id])
+  content   String
+  likes     Int?    @default(0)
+  media_url String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("replies")
 }

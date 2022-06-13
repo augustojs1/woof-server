@@ -52,9 +52,11 @@
 
 ### #Replies
 
-- [ ] Users should be able to reply to posts.
+- [x] Users should be able to reply to post.
 - [ ] Users should be able to like a reply.
 - [ ] Users should be able to reply with image.
+- [ ] Users should be able to delete their own reply.
+- [ ] Users should be albe to see all the replies of a post.
 
 ### #Users
 
@@ -74,5 +76,5 @@
 
 ### #Email
 
-- [ ] Users should confirm their accout trough email.
+- [ ] Users should confirm their account trough email.
 - [ ] Users should reset their password trough email.
