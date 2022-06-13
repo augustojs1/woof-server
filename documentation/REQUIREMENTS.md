@@ -35,6 +35,7 @@
 - [x] Users should be able to post text content.
 - [ ] Users should be able to post media content.
 - [x] Users should be able to like posts.
+- [ ] Users should be able to remove like from a post.
 - [ ] User should see wether they already liked a post.
 - [ ] Users should be able to share posts.
 - [ ] User should see wether they already shared a post.
@@ -52,9 +53,13 @@
 
 ### #Replies
 
-- [ ] Users should be able to reply to posts.
-- [ ] Users should be able to like a reply.
+- [x] Users should be able to reply to post.
+- [x] Users should be able to like a reply.
+- [ ] Users should be able to remove like from a reply.
 - [ ] Users should be able to reply with image.
+- [ ] Users should be able to see wether they liked a reply.
+- [x] Users should be able to delete their own reply.
+- [x] Users should be able to see all the replies of a post.
 
 ### #Users
 
@@ -74,5 +79,5 @@
 
 ### #Email
 
-- [ ] Users should confirm their accout trough email.
+- [ ] Users should confirm their account trough email.
 - [ ] Users should reset their password trough email.
