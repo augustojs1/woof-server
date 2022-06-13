@@ -7,6 +7,7 @@ import {
   Delete,
   UseGuards,
   ParseIntPipe,
+  Patch,
 } from '@nestjs/common';
 import { RepliesService } from './replies.service';
 import { CreateReplyDto } from './dto/create-reply.dto';
@@ -27,9 +28,12 @@ export class RepliesController {
     return this.repliesService.create(createReplyDto, postId, userId);
   }
 
-  @Get()
-  public async findAll() {
-    return this.repliesService.findAll();
+  @Patch(':id')
+  public async like(
+    @GetCurrentUser() userId: number,
+    @Param('id', ParseIntPipe) postId: number,
+  ) {
+    return this.repliesService.likeReply();
   }
 
   @Get(':id')
@@ -37,8 +41,11 @@ export class RepliesController {
     return this.repliesService.findOne(+id);
   }
 
-  @Delete(':id')
-  public async remove(@Param('id') id: string) {
-    return this.repliesService.remove(+id);
+  @Delete(':reply_id')
+  public async remove(
+    @Param('reply_id', ParseIntPipe) replyId: number,
+    @GetCurrentUser() userId: number,
+  ) {
+    return this.repliesService.remove(+userId, replyId);
   }
 }

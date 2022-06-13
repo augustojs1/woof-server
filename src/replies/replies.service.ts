@@ -35,7 +35,7 @@ export class RepliesService {
     return newReply;
   }
 
-  public async findAll() {
+  public async likeReply() {
     return `This action returns all replies`;
   }
 
@@ -43,7 +43,33 @@ export class RepliesService {
     return `This action returns a #${id} reply`;
   }
 
-  public async remove(id: number) {
-    return `This action removes a #${id} reply`;
+  public async remove(userId: number, replyId: number) {
+    const reply = await this.prisma.reply.findUnique({
+      where: {
+        id: replyId,
+      },
+    });
+
+    if (!reply) {
+      throw new HttpException(
+        'Reply with this id does not exists!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const isUserReply = reply.user_id === userId ? true : false;
+
+    if (!isUserReply) {
+      throw new HttpException(
+        'You do not have permission to delete this reply!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    return await this.prisma.reply.delete({
+      where: {
+        id: replyId,
+      },
+    });
   }
 }
