@@ -28,12 +28,12 @@ export class RepliesController {
     return this.repliesService.create(createReplyDto, postId, userId);
   }
 
-  @Patch(':id')
+  @Patch('like/:id')
   public async like(
+    @Param('id', ParseIntPipe) replyId: number,
     @GetCurrentUser() userId: number,
-    @Param('id', ParseIntPipe) postId: number,
   ) {
-    return this.repliesService.likeReply();
+    return this.repliesService.likeReply(replyId, userId);
   }
 
   @Get('post/:post_id')

@@ -35,8 +35,46 @@ export class RepliesService {
     return newReply;
   }
 
-  public async likeReply() {
-    return `This action returns all replies`;
+  public async likeReply(replyId: number, userId: number) {
+    const post = await this.prisma.reply.findUnique({
+      where: {
+        id: replyId,
+      },
+    });
+
+    if (!post) {
+      throw new HttpException(
+        'Reply with this Id does not exists!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const replyAlreadyLiked = await this.prisma.likedReply.findFirst({
+      where: {
+        reply_id: replyId,
+        user_id: userId,
+      },
+    });
+
+    if (replyAlreadyLiked) {
+      return;
+    }
+
+    await this.prisma.likedReply.create({
+      data: {
+        reply_id: replyId,
+        user_id: userId,
+      },
+    });
+
+    return await this.prisma.reply.update({
+      where: {
+        id: replyId,
+      },
+      data: {
+        likes: post.likes + 1,
+      },
+    });
   }
 
   public async findRepliesFromPost(postId: number) {

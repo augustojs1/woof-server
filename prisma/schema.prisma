@@ -33,6 +33,7 @@ model User {
   UserFollow UserFollow[]
   Reply      Reply[]
   @@map("users")
+  LikedReply LikedReply[]
 }
 
 model Post {
@@ -49,8 +50,8 @@ model Post {
   updated_at DateTime @updatedAt
 
   LikedPost LikedPost[]
+  Reply     Reply[]
   @@map("posts")
-  Reply Reply[]
 }
 
 model LikedPost {
@@ -95,4 +96,18 @@ model Reply {
   updated_at DateTime @updatedAt
 
   @@map("replies")
+  LikedReply LikedReply[]
+}
+
+model LikedReply {
+  id       Int   @id @default(autoincrement())
+  user_id  Int
+  user     User  @relation(fields: [user_id], references: [id])
+  reply_id Int
+  reply    Reply @relation(fields: [reply_id], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("liked_replies")
 }
