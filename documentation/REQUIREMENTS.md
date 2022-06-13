@@ -47,14 +47,13 @@
 - [x] Users should be able to follow another user.
 - [x] Users should be able to unfollow another user.
 - [x] User should be able to see who follows him.
-- [ ] Users should be able see who they follow.
-- [ ] Users should be able to see who another user follows.
+- [x] Users should be able see who they follow.
+- [x] Users should be able to see who another user follows.
 
 ### #Replies
 
 - [ ] Users should be able to reply to posts.
 - [ ] Users should be able to like a reply.
-- [ ] Users should be able to share a reply.
 - [ ] Users should be able to reply with image.
 
 ### #Users

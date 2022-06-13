@@ -141,13 +141,50 @@ export class FollowService {
   }
 
   public async findFollowers(userId: number) {
-    const followers = await this.prisma.$queryRaw(
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      throw new HttpException(
+        'User with this id does not exists!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const posts = await this.prisma.$queryRaw(
+      Prisma.sql`SELECT * 
+                FROM users 
+                WHERE id IN (SELECT follower_id FROM users_follows WHERE following_id = ${userId})
+                ORDER BY name ASC;`,
+    );
+
+    return posts;
+  }
+
+  public async findFollowing(userId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      throw new HttpException(
+        'User with this id does not exists!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const following = await this.prisma.$queryRaw(
       Prisma.sql`SELECT * 
                   FROM users 
-                  WHERE id IN (SELECT follower_id FROM users_follows WHERE following_id = ${userId})
+                  WHERE id IN (SELECT following_id FROM users_follows WHERE follower_id = ${userId})
                   ORDER BY name ASC;`,
     );
 
-    return followers;
+    return following;
   }
 }
