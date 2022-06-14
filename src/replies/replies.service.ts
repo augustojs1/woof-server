@@ -77,6 +77,51 @@ export class RepliesService {
     });
   }
 
+  public async dislikeReply(replyId: number, userId: number) {
+    const reply = await this.prisma.reply.findUnique({
+      where: {
+        id: replyId,
+      },
+    });
+
+    if (!reply) {
+      throw new HttpException(
+        'Reply with this Id does not exists!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const replyAlreadyLiked = await this.prisma.likedReply.findFirst({
+      where: {
+        reply_id: replyId,
+        user_id: userId,
+      },
+    });
+
+    if (!replyAlreadyLiked) {
+      throw new HttpException(
+        'You have not liked the post with this id!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    await this.prisma.likedReply.deleteMany({
+      where: {
+        reply_id: replyAlreadyLiked.reply_id,
+        user_id: replyAlreadyLiked.user_id,
+      },
+    });
+
+    return await this.prisma.reply.updateMany({
+      where: {
+        id: replyId,
+      },
+      data: {
+        likes: reply.likes - 1,
+      },
+    });
+  }
+
   public async findRepliesFromPost(postId: number) {
     const post = await this.prisma.post.findUnique({
       where: {
@@ -128,5 +173,35 @@ export class RepliesService {
         id: replyId,
       },
     });
+  }
+
+  public async checkLike(replyId: number, userId: number) {
+    const reply = await this.prisma.reply.findUnique({
+      where: {
+        id: replyId,
+      },
+    });
+
+    if (!reply) {
+      throw new HttpException(
+        'Reply with this Id does not exists!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const likedReply = await this.prisma.likedReply.findFirst({
+      where: {
+        reply_id: replyId,
+        user_id: userId,
+      },
+    });
+
+    if (!likedReply) {
+      return {
+        reply_liked: false,
+      };
+    }
+
+    return { reply_liked: true };
   }
 }
