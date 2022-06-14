@@ -55,7 +55,7 @@
 
 - [x] Users should be able to reply to post.
 - [x] Users should be able to like a reply.
-- [ ] Users should be able to remove like from a reply.
+- [x] Users should be able to remove like from a reply.
 - [ ] Users should be able to reply with image.
 - [ ] Users should be able to see wether they liked a reply.
 - [x] Users should be able to delete their own reply.

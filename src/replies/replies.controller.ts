@@ -36,6 +36,14 @@ export class RepliesController {
     return this.repliesService.likeReply(replyId, userId);
   }
 
+  @Patch('dislike/:id')
+  public async dislike(
+    @Param('id', ParseIntPipe) replyId: number,
+    @GetCurrentUser() userId: number,
+  ) {
+    return this.repliesService.dislikeReply(replyId, userId);
+  }
+
   @Get('post/:post_id')
   public async findOne(@Param('post_id', ParseIntPipe) postId: number) {
     return this.repliesService.findRepliesFromPost(postId);
