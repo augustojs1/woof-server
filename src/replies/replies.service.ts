@@ -174,4 +174,34 @@ export class RepliesService {
       },
     });
   }
+
+  public async checkLike(replyId: number, userId: number) {
+    const reply = await this.prisma.reply.findUnique({
+      where: {
+        id: replyId,
+      },
+    });
+
+    if (!reply) {
+      throw new HttpException(
+        'Reply with this Id does not exists!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const likedReply = await this.prisma.likedReply.findFirst({
+      where: {
+        reply_id: replyId,
+        user_id: userId,
+      },
+    });
+
+    if (!likedReply) {
+      return {
+        reply_liked: false,
+      };
+    }
+
+    return { reply_liked: true };
+  }
 }

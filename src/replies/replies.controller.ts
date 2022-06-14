@@ -25,7 +25,7 @@ export class RepliesController {
     @Body() createReplyDto: CreateReplyDto,
     @Param('id', ParseIntPipe) postId: number,
   ) {
-    return this.repliesService.create(createReplyDto, postId, userId);
+    return await this.repliesService.create(createReplyDto, postId, userId);
   }
 
   @Patch('like/:id')
@@ -33,7 +33,7 @@ export class RepliesController {
     @Param('id', ParseIntPipe) replyId: number,
     @GetCurrentUser() userId: number,
   ) {
-    return this.repliesService.likeReply(replyId, userId);
+    return await this.repliesService.likeReply(replyId, userId);
   }
 
   @Patch('dislike/:id')
@@ -41,12 +41,20 @@ export class RepliesController {
     @Param('id', ParseIntPipe) replyId: number,
     @GetCurrentUser() userId: number,
   ) {
-    return this.repliesService.dislikeReply(replyId, userId);
+    return await this.repliesService.dislikeReply(replyId, userId);
+  }
+
+  @Get('like/:id')
+  public async findLike(
+    @Param('id', ParseIntPipe) replyId: number,
+    @GetCurrentUser() userId: number,
+  ) {
+    return await this.repliesService.checkLike(replyId, userId);
   }
 
   @Get('post/:post_id')
   public async findOne(@Param('post_id', ParseIntPipe) postId: number) {
-    return this.repliesService.findRepliesFromPost(postId);
+    return await this.repliesService.findRepliesFromPost(postId);
   }
 
   @Delete(':reply_id')
@@ -54,6 +62,6 @@ export class RepliesController {
     @Param('reply_id', ParseIntPipe) replyId: number,
     @GetCurrentUser() userId: number,
   ) {
-    return this.repliesService.remove(+userId, replyId);
+    return await this.repliesService.remove(+userId, replyId);
   }
 }
