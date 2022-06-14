@@ -45,6 +45,22 @@ export class PostsController {
     return await this.postsService.likeAPost(postId, userId);
   }
 
+  @Patch('dislike/:id')
+  public async dislike(
+    @Param('id', ParseIntPipe) postId: number,
+    @GetCurrentUser() userId: number,
+  ) {
+    return await this.postsService.dislikeAPost(postId, userId);
+  }
+
+  @Get('like/:id')
+  public async check(
+    @Param('id', ParseIntPipe) postId: number,
+    @GetCurrentUser() userId: number,
+  ) {
+    return await this.postsService.checkLike(postId, userId);
+  }
+
   @Delete(':id')
   public async delete(
     @Param('id', ParseIntPipe) postId: number,

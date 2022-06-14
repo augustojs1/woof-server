@@ -95,6 +95,81 @@ export class PostsService {
     });
   }
 
+  public async dislikeAPost(postId: number, userId: number) {
+    const post = await this.prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+    });
+
+    if (!post) {
+      throw new HttpException(
+        'Post with this Id does not exists!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const postAlreadyLiked = await this.prisma.likedPost.findFirst({
+      where: {
+        post_id: postId,
+        user_id: userId,
+      },
+    });
+
+    if (!postAlreadyLiked) {
+      throw new HttpException(
+        'You have not liked the post with this id!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    await this.prisma.likedPost.deleteMany({
+      where: {
+        post_id: postAlreadyLiked.post_id,
+        user_id: postAlreadyLiked.user_id,
+      },
+    });
+
+    return await this.prisma.post.updateMany({
+      where: {
+        id: post.id,
+      },
+      data: {
+        likes: post.likes - 1,
+      },
+    });
+  }
+
+  public async checkLike(postId: number, userId: number) {
+    const post = await this.prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+    });
+
+    if (!post) {
+      throw new HttpException(
+        'Post with this Id does not exists!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const likedPost = await this.prisma.likedPost.findFirst({
+      where: {
+        post_id: postId,
+        user_id: userId,
+      },
+    });
+
+    if (!likedPost) {
+      return {
+        post_liked: false,
+      };
+    }
+
+    return { post_liked: true };
+  }
+
   public async deletePost(postId: number, userId: number) {
     const post = await this.prisma.post.findFirst({
       where: {
