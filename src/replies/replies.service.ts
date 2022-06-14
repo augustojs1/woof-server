@@ -100,7 +100,7 @@ export class RepliesService {
 
     if (!replyAlreadyLiked) {
       throw new HttpException(
-        'You have not liked the post with this id!',
+        'You have not liked the reply with this id!',
         HttpStatus.BAD_REQUEST,
       );
     }

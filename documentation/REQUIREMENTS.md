@@ -35,8 +35,8 @@
 - [x] Users should be able to post text content.
 - [ ] Users should be able to post media content.
 - [x] Users should be able to like posts.
-- [ ] Users should be able to remove like from a post.
-- [ ] User should see wether they already liked a post.
+- [x] Users should be able to remove like from a post.
+- [x] User should see wether they already liked a post.
 - [ ] Users should be able to share posts.
 - [ ] User should see wether they already shared a post.
 - [ ] Users should be able to save a post.
